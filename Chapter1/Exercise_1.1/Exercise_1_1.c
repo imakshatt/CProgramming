@@ -22,4 +22,5 @@ main: print the hello, world
 
 void main(){
         printf("Hello, World");
+	printf("Updated 2");
 }/**End main()*/
