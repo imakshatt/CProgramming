@@ -8,7 +8,7 @@
 #
 
 # List of all C programs to compile (Exercise_1_1.c to Exercise_1_13.c)
-PROGS := Exercise_2_1.c Exercise_2_2.c Exercise_2_3.c Exercise_2_4.c
+PROGS := Exercise_2_1.c Exercise_2_2.c Exercise_2_4.c Exercise_2_5.c Exercise_2_10.c
 
 # Compiler to use
 CC := gcc
