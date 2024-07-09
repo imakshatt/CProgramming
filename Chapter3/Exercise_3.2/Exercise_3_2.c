@@ -8,12 +8,13 @@ Modified: 8 July 2024
 
 /** REQUIRED HEADER FILES */
 #include<stdio.h>
-
+#define MAXLINE 1000
 /** MARCO DEFINATIONS */
 
 
 /** FUNCTION PROTOTYPES */
 void escape(char s[], char t[]);
+int mgetline(char line[], int maxline);
 
 /** MAIN PROGRAM */
 /*
@@ -22,19 +23,11 @@ void escape(char s[], char t[]);
 
 
 int main(){
-	int iC;
-	while((iC=getchar())!=EOF){
-		switch(iC){
-			case '\n':
-				printf("\\");
-				printf("n");
-			case '\t':
-				printf("\\");
-				printf("t");
-			default:
-				putchar(iC);
-		}
-	}
+	char s[MAXLINE], t[MAXLINE];
+
+	mgetline(t, MAXLINE);
+	escape(t,s);
+	printf("%s", s);
 	return 0;
 }
 
@@ -47,6 +40,36 @@ int main(){
  * Modified: 21 Jun 2024
 */
 
-void functionName(){
+void escape(char s[], char t[]){
+	int i, j;
+	i=j=0;
+	while(t[i] != '\0'){
+		switch(t[i]){
+			case '\t':
+				s[j] = '\\';
+				j++;
+				s[j] = 't';
+				break;
+			case '\n':
+				s[j] = '\\';
+				j++;
+				s[j] = 'n';
+				break;
+			default:
+				s[j] = t[i];
+				break;
+		}
+		i++;
+		j++;
+	}
+	s[j] = '\0';
+}
 
+int mgetline(char s[], int lim){
+	int i, c;
+
+	for(i=0;i<lim-1 && (c=getchar())!=EOF; i++){
+		s[i]=c;
+	}
+	s[i] = '\0';
 }
