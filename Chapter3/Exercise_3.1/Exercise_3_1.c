@@ -8,7 +8,7 @@ Modified: 8 July 2024
 
 /** REQUIRED HEADER FILES */
 #include<stdio.h>
-
+#include<time.h>
 /** MARCO DEFINATIONS */
 
 
@@ -23,7 +23,18 @@ int binarysearch(int x, int arr[], int n);
 
 int main(){
 	int arr[] = {5,4,3,2,1};
-	printf("%d ", binarysearch(2, arr, 5));
+	int index;
+	clock_t start, end;
+
+	start = clock();
+	
+	index = binarysearch(2, arr, 5);
+
+	end = clock(); 
+
+	double timed = (double)(end-start)/(CLOCKS_PER_SEC);
+
+	printf("%f",timed);	
 	return 0;
 }
 
