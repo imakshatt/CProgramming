@@ -8,13 +8,13 @@
 #
 
 # List of all C programs to compile (Exercise_1_1.c to Exercise_1_13.c)
-PROGS := Exercise_3_1.c Exercise_3_2.c
+PROGS := Exercise_3_1.c Exercise_3_2.c Exercise_3_3.c
 
 # Compiler to use
 CC := gcc
 
 # Flags for the compiler
-CFLAGS := -Wall -std=c99
+CFLAGS := -Wall -std=c99 -g
 
 # Default target: compile all programs
 all: $(PROGS:.c=)
