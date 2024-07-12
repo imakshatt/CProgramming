@@ -26,7 +26,7 @@ void reverse(char s[], int iWidth);
 int main(){
 	char s[1000];
 	int iN = 4567;
-	int iWidth = 7;
+	int iWidth = 10;
 	itoa(iN, s, iWidth);
 	return 0;
 }
@@ -65,22 +65,22 @@ void reverse(char s[], int iWidth){
         char t[1000];   //reverse number stored into the t[]
         int len = strlen(s); //finding the length of the char strind s[] and store it in len
         int index = 0;  //initialize index with zero
+	int iActualWidth = iWidth - len;
         for(int j=len-1;j>=0;j--){   //starting the loop from the last pos of s[]
                 t[index] = s[j]; //and copy the character one by one in the t[index] position
                 index++; //increment the index to traverse into the t[]
         }
-        //t[index] = '\0'; //at the end put the null charater for the string termination
-        
-	int iIndex = 0;
-	for(int i=0;i<len;i++){
-		t[i+iWidth] = t[i];
-		iIndex++;
-	}
-	int iActualWidth = (len - iWidth);
-	for(int i=0;i<iActualWidth;i++){
-		t[i] = '-';
-		iIndex++;
-	}
-	t[iIndex] = '\0';
+        t[index] = '\0'; //at the end put the null charater for the string termination
+	char ans[1000];
 	printf("%s\n", t);
+	int iI = 0;
+	for(int i=0;i<iActualWidth;i++){
+		ans[i] = '-';
+		//iI++;
+	}
+	for(int j=iActualWidth;j<iWidth;j++){
+		ans[j] = t[j-iActualWidth];
+	}
+	ans[iWidth] = '\0';
+	printf("%s\n", ans);
 }
