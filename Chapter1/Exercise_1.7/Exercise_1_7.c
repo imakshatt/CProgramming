@@ -22,6 +22,6 @@ Modified: 24 JUn 2024
 
 
 int main(){
-	printf("%d", EOF);
+	printf("%d", EOF); /*Prints the value of EOF*/
 	return 0;
 }

@@ -22,14 +22,18 @@ Modified: 24 JUn 2024
 
 
 int main(){
-	if(getchar()!=EOF){
-		printf("1");
-	}
-	else{
-		printf("0");
-	}
+	char choice;
+	do{
+		if(getchar()!=EOF){ /*Termination condition*/
+                	printf("1"); /*Printing 1 if the expression is valid*/
+        	}
+        	else{
+                	printf("0"); /*Else printing 0 if the expression is not valid*/
+        	}
+
+		printf("Do you want to generate another table? (y/n): ");
+		scanf("%c", &choice);
+	}while(choice=='y' || choice=='Y');
 	return 0;
 }
 
-
-//if any functions then mention like below

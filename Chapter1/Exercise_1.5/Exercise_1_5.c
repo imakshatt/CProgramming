@@ -21,15 +21,31 @@ void reverseFahtoCel(int iUpper, int iLower, int iStep);
 */
 
 int main(){
-	int iUpper = 300;
-	int iLower = 0;
-	int iStep = 20;
+	int iLower, iUpper, iStep; /*Define iLower, iUpper and iStep(int type)*/
+        char choice; /*For taking 'Y' or 'N', for program execution*/
 
-	printf("Fahrenheit\tCelcius\n");
-	void reverseFahtoCel(iUpper, iLower, iStep);
-	return 0;
+        do{
+                printf("Enter the lower limit (in Celsius)->MUST BE AN INT VALUE: ");
+                scanf("%d", &iLower); /*Taking the lower limit from user and stored in iLower*/
 
-}
+                printf("Enter the Upper limit (in Celsius)->MUST BE AN INT VALUE: ");
+                scanf("%d", &iUpper); /*Taking the Upper limit from user and stored in iUpper*/
+
+                printf("Enter the step size ->MUST BE AN INT VALUE: ");
+                scanf("%d", &iStep); /*Taking the steps from user and stored in iStep*/
+
+                printf("Fahrenheit\tCelsius\n");
+                reverseFahtoCel(iUpper, iLower, iStep); /*Calling the function*/
+
+                // Asking user if they want to continue
+                printf("Do you want to generate another table? (y/n): ");
+                scanf(" %c", &choice); /*Takes choice press 'y' or 'Y' if continue else press 'n'*/
+
+
+        }while(choice == 'y' || choice == 'Y'); /*End of Do-While Loop*/
+
+        return 0;
+} /*End of main*/
 
 
 //if any functions then mention like below
@@ -41,11 +57,11 @@ int main(){
 */
 
 void reverseFahtoCel(int iUpper, int iLower, int iStep){
-	float fFah;
-	float fCel;
+	float fFah; /*Takes the Fahrenheit Value*/
+	float fCel; /*Takes the Celcius Value*/
 
-	for(int i=iUpper ; i>=iLower ; i--){
-		fCel = 5 * (i-32) / 9;
-		printf("%3.0f\t%6.2f\n", fFah, fCel);
+	for(int i=iUpper ; i>=iLower ; i--){ /*Decrementing LOOP*/
+		fCel = 5 * (i-32) / 9;  /*Equation to convert FAh to Cel*/
+		printf("%3.0f\t%6.2f\n", fFah, fCel); /*Printing the values*/
 	}
-}
+} /*End of Function*/

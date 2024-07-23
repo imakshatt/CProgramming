@@ -14,7 +14,7 @@ Modified: 21 JUn 2024
 
 
 /** FUNCTION PROTOTYPES */
-void CelToFah(int iLower, int iUpper, int iStep);
+void CelToFah(int iLower, int iUpper, int iStep); /*Converts Cel to Fah*/
 
 /** MAIN PROGRAM */
 /*
@@ -23,12 +23,30 @@ void CelToFah(int iLower, int iUpper, int iStep);
 
 
 int main(){
-	int iLower = 0;
-	int iUpper = 300;
-	int iStep = 20;
-	printf("Celcius\tFahrenheit\n");
+	int iLower, iUpper, iStep; /*Define iLower, iUpper and iStep(int type)*/
+	char choice; /*For taking 'Y' or 'N', for program execution*/
 
-	CelToFah(iLower, iUpper, iStep);
+	do{
+		printf("Enter the lower limit (in Celsius)->MUST BE AN INT VALUE: ");
+		scanf("%d", &iLower); /*Taking the lower limit from user and stored in iLower*/
+
+		printf("Enter the Upper limit (in Celsius)->MUST BE AN INT VALUE: ");
+		scanf("%d", &iUpper); /*Taking the Upper limit from user and stored in iUpper*/
+
+		printf("Enter the step size ->MUST BE AN INT VALUE: "); 
+		scanf("%d", &iStep); /*Taking the steps from user and stored in iStep*/
+
+		printf("Celsius\tFahrenheit\n");
+        	CelToFah(iLower, iUpper, iStep); /*Calling the function*/
+
+        	// Asking user if they want to continue
+        	printf("Do you want to generate another table? (y/n): ");
+        	scanf(" %c", &choice); /*Takes choice press 'y' or 'Y' if continue else press 'n'*/
+
+
+	}while(choice == 'y' || choice == 'Y'); /*End of Do-While Loop*/
+
+	return 0;
 }/*End of main Function*/
 
 
@@ -44,11 +62,11 @@ void CelToFah(int iLower, int iUpper, int iStep){
 	float fFah; /*Takes the Fahrenheit Value*/
 	float fCel; /*Takes the Celcius Value*/
 
-	fCel=iLower;
-	while(fCel <= iUpper){
-		fFah = (9*fCel/5) + 32;
-		printf("%3.0f\t%6.1f\n", fCel, fFah);
-		fCel = fCel + iStep;
+	fCel=iLower; /*Stores the lower limit in the fCel*/
+	while(fCel <= iUpper){  /*Termination condition we have to go through till UPPER limit*/
+		fFah = (9*fCel/5) + 32; /*Equation to convert cel to fah*/
+		printf("%3.0f\t%6.1f\n", fCel, fFah); /*Pritnting the values*/
+		fCel = fCel + iStep; /*Increment by steps that we take from user*/
 	}	
-}
+} /*End of Function*/
 

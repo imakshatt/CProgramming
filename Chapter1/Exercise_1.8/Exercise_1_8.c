@@ -25,31 +25,31 @@ void lineCount(int iLines, int iC);
 
 
 int main(){
-	int iBlank;
-	int iTabs;
-	int iLines;
-	int iC;
+	int iBlank; /*Variable initialized for maintaining the count of Blank char*/
+	int iTabs; /*Variable initialized for maintaining the count of Tabs char*/ 
+	int iLines; /*Variable initialized for maintaining the count of Lines char*/
+	int iC; /*Variable initialized for maintaining the count of Characters*/
 	
-	iBlank = 0;
-	iTabs = 0;
-	iLines = 0;
+	iBlank = 0; /*Initializing iBlank counter as '0'*/
+	iTabs = 0; /*Initializing iBlank counter as '0'*/
+	iLines = 0; /*Initializing iBlank counter as '0'*/
 
-	while((iC=getchar())!=EOF){
-		if(iC==' '){
-			iBlank++;
+	while((iC=getchar())!=EOF){ /*Termination Condition*/
+		if(iC==' '){ /*Checks if Character get using getchar() is ' ' ot not*/
+			iBlank++; /*If it is then Incrementing the iBlank Counter*/
 		}
-		else if(iC=='\t'){
-			iTabs++;
-		}
-		else if(iC=='\n'){
-			iLines++;
+		else if(iC=='\t') /*Checks if Character get using getchar() is '\t' ot not*/
+			iTabs++; /*If it is then Incrementing the iTabs Counter*/
+		} 
+		else if(iC=='\n'){ /*Checks if Character get using getchar() is '\n' ot not*/
+			iLines++; /*If it is then Incrementing the iLines Counter*/
 		}
 	}
-	printf("Total # of Blanks are: %d\n", iBlank);
-	printf("Total # of Tabs are: %d\n", iTabs);
-	printf("Total # of Lines are: %d\n", iLines);
+	printf("Total # of Blanks are: %d\n", iBlank); /*Printing the values*/
+	printf("Total # of Tabs are: %d\n", iTabs); /*Printing the values*/
+	printf("Total # of Lines are: %d\n", iLines); /*Printing the values*/
 
-	return 0;
+	return 0; 
 }
 
 //Functions if any

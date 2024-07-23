@@ -21,6 +21,6 @@ main: print the hello, world
 
 
 void main(){
-        printf("Hello, World");
-	printf("Updated 2");
+        printf("Hello, World\n");
+	printf("Updated 2\n");
 }/**End main()*/
