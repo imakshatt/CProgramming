@@ -1,102 +1,47 @@
 /**
-Exercise_1_8: Write a program to count blanks, tabs and new line
-Author: Akshat Darji
-Created: 24 Jun 2024
-Modified: 24 JUn 2024
-*/
-
+ * Exercise_1_8: Write a program to count blanks, tabs, and new lines.
+ * Author: Akshat Darji
+ * Created: 24 Jun 2024
+ * Modified: 24 Jun 2024
+ */
 
 /** REQUIRED HEADER FILES */
-#include<stdio.h>
-
-/** MARCO DEFINATIONS */
-
+#include <stdio.h>
 
 /** FUNCTION PROTOTYPES */
-void blankCount(int iBlank, int iC);
-void tabsCount(int iTabs, int iC);
-void lineCount(int iLines, int iC);
-
+void countBlanks(int *iBlank);
+void countTabs(int *iTabs);
+void countLines(int *iLines);
 
 /** MAIN PROGRAM */
 /*
- * main: Initialize the iBlank, iTabs and iLines with the Zero and pass it through the corresponding function blankCount(), tabsCount() and lineCount() for count the blank, tabs and lines
-*/
+ * main: Initializes counters and calls functions to count blanks, tabs, and lines in the text stream.
+ */
+int main() {
+    int iBlank = 0; /* Variable for counting blanks */
+    int iTabs = 0;  /* Variable for counting tabs */
+    int iLines = 0; /* Variable for counting lines */
+    int iC; /* Variable for storing characters read from input */
 
+    printf("Enter text (Ctrl+D to end input):\n");
 
-int main(){
-	int iBlank; /*Variable initialized for maintaining the count of Blank char*/
-	int iTabs; /*Variable initialized for maintaining the count of Tabs char*/ 
-	int iLines; /*Variable initialized for maintaining the count of Lines char*/
-	int iC; /*Variable initialized for maintaining the count of Characters*/
-	
-	iBlank = 0; /*Initializing iBlank counter as '0'*/
-	iTabs = 0; /*Initializing iBlank counter as '0'*/
-	iLines = 0; /*Initializing iBlank counter as '0'*/
-
-	while((iC=getchar())!=EOF){ /*Termination Condition*/
-		if(iC==' '){ /*Checks if Character get using getchar() is ' ' ot not*/
-			iBlank++; /*If it is then Incrementing the iBlank Counter*/
-		}
-		else if(iC=='\t') /*Checks if Character get using getchar() is '\t' ot not*/
-			iTabs++; /*If it is then Incrementing the iTabs Counter*/
-		} 
-		else if(iC=='\n'){ /*Checks if Character get using getchar() is '\n' ot not*/
-			iLines++; /*If it is then Incrementing the iLines Counter*/
-		}
-	}
-	printf("Total # of Blanks are: %d\n", iBlank); /*Printing the values*/
-	printf("Total # of Tabs are: %d\n", iTabs); /*Printing the values*/
-	printf("Total # of Lines are: %d\n", iLines); /*Printing the values*/
-
-	return 0; 
-}
-
-//Functions if any
-/*
- * blankCount(): To count the blank in the text stream
- * Author: Akshat Darji
- * Created: 24 Jun 2024
- * Modified: 24 Jun 2024
-*/
-void blankCount(int iBlank, int iC){
-	while((iC=getchar())!=EOF){
-		if(iC==' '){
-			iBlank++;
-		}
-	}
-	printf("Total Blanks in the text Stream: ");
-	printf("%d\n", iBlank);
-}
-
-/*
- * tabsCount(): To count the tabs in the text stream
- * Author: Akshat Darji
- * Created: 24 Jun 2024
- * Modified: 24 Jun 2024
-*/
-void tabsCount(int iTabs, int iC){
-        while((iC=getchar())!=EOF){
-                if(iC=='\t'){
-                        iTabs++;
-     	         }
+    /* Read characters and count blanks, tabs, and lines */
+    while ((iC = getchar()) != EOF) { /* Termination Condition */
+        if (iC == ' ') { /* Checks if character is a blank space */
+            iBlank++; /* Increment blank counter */
+        } 
+	else if (iC == '\t') { /* Checks if character is a tab */
+            iTabs++; /* Increment tab counter */
+        } 
+	else if (iC == '\n') { /* Checks if character is a new line */
+            iLines++; /* Increment line counter */
         }
-	printf("Total Tabs in the text Stream: ");
-        printf("%d\n", iTabs);
-}
+    }
 
-/*
- * lineCount(): To count the # of lines in the text stream
- * Author: Akshat Darji
- * Created: 24 Jun 2024
- * Modified: 24 Jun 2024
-*/
-void lineCount(int iLines, int iC){
-        while((iC=getchar())!=EOF){
-                if(iC=='\n'){
-                        iLines++;
-                 }
-        }
-	printf("Total Lines in the text Stream: ");
-        printf("%d\n", iLines);
+    /* Print the results */
+    printf("Total # of Blanks: %d\n", iBlank); /* Printing the number of blanks */
+    printf("Total # of Tabs: %d\n", iTabs); /* Printing the number of tabs */
+    printf("Total # of Lines: %d\n", iLines); /* Printing the number of lines */
+
+    return 0;
 }

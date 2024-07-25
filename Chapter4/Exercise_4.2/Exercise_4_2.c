@@ -26,7 +26,7 @@ double atof(char s[]); /*Initialization of the function atof() with argument cha
 
 
 int main(){
-	char s[] = "123.45e+4"; /*Char String given by the User*/
+	char s[] = "123.45e-21"; /*Char String given by the User*/
 	double dAnswer; /*To store the Answer initialie dAnswer of double type*/
 	dAnswer = atof(s);  //call the function and stores the retrun double value in dAnswer
 	printf("%f\n", dAnswer); /*Prints the answer*/
