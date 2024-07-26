@@ -21,6 +21,18 @@ void handle_error(int error_code) {
 	case ERROR_INVALID_HEX_CHARACTER:
 	    printf("Error %d: Invalid Input String (Your String Must be in Hexadecimal format)\n", ERROR_INVALID_HEX_CHARACTER);
 	    break;
+	case ERROR_EMPTY_STRING:
+	    printf("Error %d: Invalid Input (String is Empty)\n", ERROR_EMPTY_STRING);
+	    break;
+	case ERROR_DUPLICATE_CHARACTERS:
+	    printf("Error %d: Can not proceed because cS1 does not contains duplicate characters and you give the duplicate characters in cS2 to remove\n", ERROR_DUPLICATE_CHARACTERS);
+	    break;
+	case ERROR_INVALID_SIZE:
+	    printf("Error %d: Invalid array size.\n", ERROR_INVALID_SIZE);
+	    break;
+	case ERROR_INPUT_TOO_LONG:
+	    printf("Error %d: Input exceeds maximum allowed length.\n", ERROR_INPUT_TOO_LONG);
+	    break;
         default:
             printf("Error: Unknown error.\n");
             break;

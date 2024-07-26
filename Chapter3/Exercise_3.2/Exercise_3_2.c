@@ -8,9 +8,11 @@ Modified: 9 July 2024
 
 /** REQUIRED HEADER FILES */
 #include<stdio.h>
+#include<string.h>
+#include "../../error_handling.h"
 
 /** MARCO DEFINATIONS */
-
+#define MAX_STRING_LENGTH 100
 
 /** FUNCTION PROTOTYPES */
 void escape(char s[], char t[]); //Takes S and T and updated char string copied to char t[]
@@ -20,15 +22,43 @@ void escape(char s[], char t[]); //Takes S and T and updated char string copied 
  * main: takes string t and put the real characters in place of tab and newLine
 */
 
+int main() {
+    char cS[MAX_STRING_LENGTH];  /* Input string */
+    char cT[MAX_STRING_LENGTH];  /* Output string */
+    char choice;                /* Variable to store the user's choice for continuation */
 
-int main(){
-	char s[]= "Hello guys	joshi	is";  //Main char string to be converted in real char
-	char t[1000]; //answer string
-	escape(s, t); //function takes s and t
-	printf("%s\n", t); //print the resulting string
-	return 0;
+    do {
+        printf("Enter a string to be converted (up to 1000 characters): ");
+        if (fgets(cS, sizeof(cS), stdin) == NULL) {
+            handle_error(ERROR_INVALID_INPUT);  /* Handle invalid input error */
+            return 1;
+        }
+        cS[strcspn(cS, "\n")] = '\0';  /* Remove newline character if present */
+
+        /* Check for input length exceeding maximum allowed length */
+        if (strlen(cS) >= MAX_STRING_LENGTH) {
+            handle_error(ERROR_INPUT_TOO_LONG);  /* Handle input too long error */
+            return 1;
+        }
+
+        escape(cS, cT);  /* Call the escape function */
+
+        printf("Converted string: %s\n", cT);  /* Print the resulting string */
+
+        printf("Do you want to convert another string? (y/n): ");
+        if (scanf(" %c", &choice) != 1) {
+            handle_error(ERROR_INVALID_INPUT);  /* Handle invalid input error */
+            while (getchar() != '\n'); /* Clear input buffer */
+            return 1;
+        }
+
+        /* Clear the input buffer to avoid issues with leftover newline characters */
+        while (getchar() != '\n');
+
+    } while (choice == 'y' || choice == 'Y');  /* Continue if the user chooses 'y' or 'Y' */
+
+    return 0;  /* Exit the program */
 }
-
 
 //if any functions then mention like below
 /*
@@ -40,28 +70,28 @@ int main(){
 
 void escape(char s[], char t[]){
 	char iC;
-	int i, j; //for traversing in the string
-	i=j=0; //initially i and j marked as zero
-	while((s[i])!='\0'){  //terminaton condition
-		switch(s[i]){   //checks the s[i] and accordingly performs the cases
+	int iI, iJ; //for traversing in the string
+	iI=iJ=0; //initially i and j marked as zero
+	while((s[iI])!='\0'){  //terminaton condition
+		switch(s[iI]){   //checks the s[i] and accordingly performs the cases
 			case '\n':         //case for the new line character
-				t[j] = '\\';    //at jth position of t[j] put '/'
-				j++;            //then increase the pointer
-				t[j] = 'n';     //and then again put the 'n' on t[j]th pos
+				t[iJ] = '\\';    //at jth position of t[j] put '/'
+				iJ++;            //then increase the pointer
+				t[iJ] = 'n';     //and then again put the 'n' on t[j]th pos
 				break;
 			case '\t':              //case for the tab 
-				t[j] = '\\';
-				j++;
-				t[j] = 't';
+				t[iJ] = '\\';
+				iJ++;
+				t[iJ] = 't';
 				
 				break;
 			default:
-				t[j]=s[i];  //default case for simple words
+				t[iJ]=s[iI];  //default case for simple words
 				break;
 		}
-		i++;   //increasing the both pointers
-		j++;
+		iI++;   //increasing the both pointers
+		iJ++;
 	}
-	t[j] = '\0';
+	t[iJ] = '\0';
 
 }
