@@ -12,6 +12,7 @@ Modified: 16 Juy 2024
 #include<ctype.h>
 #include<math.h>
 #include<string.h>
+#include "../../error_handling.h"
 
 /** MARCO DEFINATIONS */
 
@@ -24,13 +25,71 @@ double atof(char s[]); /*Initialization of the function atof() with argument cha
  * main: Taking the character string from user and pass it to the atof functin which performs the scientific calculations on the given string like 125.45e-3 into 125.45 * 10^-6
 */
 
+int main() {
+    char cS[1000];   /* Array to store the input string */
+    double dAnswer; /* Variable to store the converted double value */
+    char choice;    /* Variable to store the user's choice for continuation */
 
-int main(){
-	char s[] = "123.45e-21"; /*Char String given by the User*/
-	double dAnswer; /*To store the Answer initialie dAnswer of double type*/
-	dAnswer = atof(s);  //call the function and stores the retrun double value in dAnswer
-	printf("%f\n", dAnswer); /*Prints the answer*/
-	return 0;
+    do {
+        printf("Enter a floating-point number as a string: ");  /* Enter the string */
+        if (fgets(cS, sizeof(cS), stdin) == NULL) { /* i/p from user and handle input error */
+            handle_error(ERROR_INVALID_INPUT); /* Handle invalid input error */
+            return 1;
+        }
+        cS[strcspn(cS, "\n")] = '\0';   /* Remove the newline character from the input */
+
+        if (strlen(cS) == 0) {  /* Check if the input string is empty */
+            handle_error(ERROR_EMPTY_STRING); /* Handle empty string error */
+            continue; /* Ask for input again */
+        }
+	
+	int eCount = 0; /* Counter to track occurrences of 'e' or 'E' */
+        int invalidChar = 0; /* Flag to track invalid characters */
+        int ePosition = -1; /* Position of 'e' or 'E' in the string */
+
+        /* Loop through the input string to check for errors */
+        for (int i = 0; i < strlen(cS); i++) {
+            if (cS[i] == 'e' || cS[i] == 'E') {
+                eCount++;
+                ePosition = i;
+            } else if (!isdigit(cS[i]) && cS[i] != '.' && cS[i] != '+' && cS[i] != '-') {
+                invalidChar = 1;
+            }
+        }
+
+        if (eCount > 1) { /* Check for multiple 'e' or 'E' */
+            handle_error(ERROR_INVALID_FORMAT); /* Handle multiple 'e' or 'E' error */
+            continue; /* Ask for input again */
+        }
+
+        if (invalidChar) { /* Check for invalid characters */
+            handle_error(ERROR_INVALID_FORMAT); /* Handle invalid characters error */
+            continue; /* Ask for input again */
+        }
+
+        /* Check for invalid character immediately following 'e' or 'E' */
+        if (ePosition != -1 && (cS[ePosition + 1] != '+' && cS[ePosition + 1] != '-' && !isdigit(cS[ePosition + 1]))) {
+            handle_error(ERROR_INVALID_FORMAT); /* Handle invalid character after 'e' or 'E' error */
+            continue; /* Ask for input again */
+        }
+
+
+        dAnswer = atof(cS);  /* Call the atof function and store the result in dAnswer */
+
+        printf("Converted double value: %f\n", dAnswer);  /* Print the result */
+
+        printf("Do you want to convert another string? (y/n): ");  /* Prompt for continuation */
+        choice = getchar();  /* Read user's choice */
+        while (getchar() != '\n');  /* Clear the input buffer */
+
+        if (choice != 'y' && choice != 'Y' && choice != 'n' && choice != 'N') {
+            handle_error(ERROR_INVALID_INPUT); /* Handle invalid input error */
+            continue; /* Ask for input again */
+        }
+
+    } while (choice == 'y' || choice == 'Y');  /* Continue if the user chooses 'y' or 'Y' */
+
+    return 0;  /* Exit the program */
 }
 
 /*

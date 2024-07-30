@@ -1,8 +1,9 @@
+
 /**
-Exercise_4_3: Given the basic framework, it's straightforward to extend the calculator. Add the modulus (%) operator and provisions for negative numbers.
+Exercise_4_4: Add the commands to print the top elements of the stack without popping, to duplicate it, and to swap the top two elements. Add a command to clear the stack.
 Author: Akshat Darji
-Created: 18 July 2024
-Modified: 18 July 2024
+Created: 26 July 2024
+Modified: 26 July 2024
 */
 
 
@@ -24,35 +25,53 @@ void push(double);
 double pop(void);
 int getch(void);
 void ungetch(int);
+void peek(void);
+void duplicatetop(void);
+void swapTopTwo(void);
+void clearStack(void);
+void printInstructions(void);
 
 /** MAIN PROGRAM */
 /*
- * main: detail overview of main function
+ * main: A manu driven program which handles various cases such as addition, mutliplication, divi
+ * modulo, print top element, duplicate top element, swap top two elements and clear the stack
+ * Here below are some notations that are useful
+ * Print Top Element use 'P': i.e. 2 3 + 5 * P
+ * Duplicate Top Element use 'D': i.e. 2 3 D
+ * swap top 2 Elements use 'S': i.e. 2 3 S
+ * clear the stack use 'C' 
 */
 
 
 int main(){
+
+	printInstructions(); /*Printing the instructions for the user*/
 	int type;
 	double op2;
 	char s[MAXOP];
 	char choice;
+
 
 	while((type=getop(s)) != EOF){
 		switch(type){
 			case NUMBER: /*if type == '0' then this case performs*/
 				push(atof(s)); /*converting s into double and push to stack*/
 				break; /*break the case*/
+
 			case '+':   /*If type == '+' then we have to perform Addition*/
 				push(pop() + pop()); /*Pop first 2 ele and perform '+'*/
 				break; /*Break the case*/
+
 			case '*': /*If type == '*' then we have to perform Multiplication*/
 				push(pop() * pop()); /*pop first 2 ele and perform '*'*/
 				break;
+
 			case '-': /*If type == '-' then perform Substraction*/
 				/*As in Substraction Sign and order metters hense use op2*/
 				op2 = pop(); /*store top ele of stack in op2*/
 				push(pop() - op2); /*Now pop last ele and perform '-'*/
 				break; 
+
 			case '/': /*If type == '/' then perform Division*/
 				/*As in Division Sign and order merrers*/
 				/*And also encounter zero division error*/
@@ -63,14 +82,32 @@ int main(){
 				else{
 					printf("Error: Zero Division Error\n"); /*Error Handling*/
 				}
-			case '%':
-				op2 = pop();
-				if(op2 != 0.0){
+				break;
+
+			case '%': /*If type == '%' then perform Division*/
+				/*As in Modulo Sign and order merrers*/
+				/*And also encounter zero division error*/
+				op2 = pop(); /*Store first element of stack in op2*/
+				if(op2 != 0.0){ /*Chekc if op2==0 then '%' Not possible*/
 					push((int)pop() % (int)op2);
 				}
 				else{
-					printf("Error: Zero Division Error");
+					printf("Error: Zero Division Error"); /*Error Handling*/
 				}
+				break;
+
+			case 'P': /*To print top element of the stack*/
+				peek(); 
+				break;
+			case 'D': /*To Duplicate top elelent of the stack*/
+				duplicatetop();
+				break;
+			case 'S': /*To Swap top 2 element of the stack*/
+				swapTopTwo();
+				break;
+			case 'C': /*To clear the stack*/
+				clearStack();
+				break;
 			case '\n':
 				printf("\t%.8g\n", pop());
 				break;
@@ -84,10 +121,32 @@ int main(){
 }
 
 /*
+ * printInstructions(): This function is used to print the basic instructions for the user
+ * Author: Akshat Darji
+ * Created: 26 July 2024
+ * Modified: 26 July 2024
+*/
+
+void printInstructions(void){
+	printf("Welcome the Calculator!\n");
+    	printf("You can perform the following operations:\n");
+    	printf(" - Addition: +\n");
+    	printf(" - Subtraction: -\n");
+    	printf(" - Multiplication: *\n");
+    	printf(" - Division: /\n");
+    	printf(" - Modulo: %%\n");
+    	printf(" - Print Top Element: P\n");
+    	printf(" - Duplicate Top Element: D\n");
+    	printf(" - Swap Top 2 Elements: S\n");
+    	printf(" - Clear the Stack: C\n");
+    	printf("Enter your commands followed by Enter:\n");
+}
+
+/*
  * getop(char s[]): This function is used to read the operators and operands from i/p
  * Author: Akshat Darji
- * Created: 18 July 2024
- * Modified: 18 July 2024
+ * Created: 26 July 2024
+ * Modified: 26 July 2024
 */
 
 int getop(char s[]){
@@ -144,8 +203,8 @@ int getop(char s[]){
 /*
  * getch(void): to read the character from the i/p string
  * Author: Akshat Darji
- * Created: 19 July 2024
- * Modified: 19 July 2024
+ * Created: 26 July 2024
+ * Modified: 26 July 2024
 */
 
 char buf[BUFSIZE]; /*Initialize the buffer array to store the non-numeric char*/
@@ -154,11 +213,12 @@ int getch(void){
 	return (bufp > 0) ? buf[--bufp] : getchar(); /*Check is bufp is zero then only it read the char from the input string and if bufp is 1 then it clears the buffer first then only read it*/
 }
 
+
 /*
  * ungetch(int c): to store the non-numeric value in the buf[]
  * Author: Akshat Darji
- * Created: 19 July 2024
- * Modified: 19 July 2024
+ * Created: 26 July 2024
+ * Modified: 26 July 2024
 */
 
 void ungetch(int c){
@@ -174,8 +234,8 @@ void ungetch(int c){
 /*
  * push(double f): This function push the value into the stack val[]
  * Author: Akshat Darji
- * Created: 19 July 2024
- * Modified: 19 July 2024
+ * Created: 26 July 2024
+ * Modified: 26 July 2024
 */
 int sp = 0; /*Pointer to traverse into the stack*/
 double val[MAXVAL]; /*Initialize the stack*/
@@ -191,8 +251,8 @@ void push(double f){ /*Cahce the value*/
 /*
  * pop(): This function delete the top element from the stack
  * Author: Akshat Darji
- * Created: 19 July 2024
- * Modified: 19 July 2024
+ * Created: 26 July 2024
+ * Modified: 26 July 2024
 */
 
 double pop(){
@@ -205,4 +265,68 @@ double pop(){
 	}
 }
 
+/*
+ * peek(void): This function is used to print the top element of stack without popping
+ * Author: Akshat Darji
+ * Created: 26 July 2024
+ * Modified: 26 July 2024
+*/
 
+void peek(void){
+	if(sp > 0){
+		printf("Top Element: %.8g\n", val[sp-1]);
+	}
+	else{
+		printf("Error: Stack is Empty can't print top element\n");
+	}
+}
+
+/*
+ * duplicatetop(void): This function is used to duplicate the top element
+ * Author: Akshat Darji
+ * Created: 26 July 2024
+ * Modified: 26 July 2024
+*/
+
+void duplicatetop(void){
+	if(sp > 0 && sp < MAXVAL){
+		double top = val[sp-1];
+		push(top);
+	}
+	else if(sp == 0){
+		printf("Error: Stack is Empty can't duplicate.\n");
+	}
+	else{
+		printf("Error: Stack Overflow, can't duplicate.\n");
+	}
+}
+
+/*
+ * swapTopTwo(void): This function is used to swap top 2 elements of stack 
+ * Author: Akshat Darji
+ * Created: 26 July 2024
+ * Modified: 26 July 2024
+*/
+
+void swapTopTwo(void){
+    if(sp >= 2){
+        double temp = val[sp-1];
+        val[sp-1] = val[sp-2];
+        val[sp-2] = temp;
+	printf("First Element: %.8g\n", val[sp-1]);
+	printf("Second Element: %.8g\n", val[sp-2]);
+    }
+    else{
+        printf("Error: Not enough elements to swap.\n");
+    }
+}
+
+/*
+ * clearStack(void): This function is used clear the stack                                           * Author: Akshat Darji
+ * Created: 26 July 2024
+ * Modified: 26 July 2024
+*/
+
+void clearStack(void){
+	sp=0;
+}

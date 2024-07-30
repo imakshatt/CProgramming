@@ -24,23 +24,23 @@ int binarysearch(int x, int arr[], int n); //x refers to the element which we ha
 */
 
 int main() {
-    int arr[MAX_SIZE];  /* Array to store user input elements */
-    int size = 0;       /* Number of elements in the array */
-    int target;         /* Element to search for */
-    int index;          /* Index of the found element */
+    int iArr[MAX_SIZE];  /* Array to store user input elements */
+    int iSize = 0;       /* Number of elements in the array */
+    int iTarget;         /* Element to search for */
+    int iIndex;          /* Index of the found element */
     char choice;        /* Variable to store the user's choice for continuation */
 
     do {
         printf("Enter the number of elements in the array (up to %d): ", MAX_SIZE);
-        if (scanf("%d", &size) != 1 || size <= 0 || size > MAX_SIZE) {
+        if (scanf("%d", &iSize) != 1 || iSize <= 0 || iSize > MAX_SIZE) {
             handle_error(ERROR_INVALID_SIZE);  /* Handle invalid size error */
             while (getchar() != '\n'); /*Clear input buffer*/
             continue;
         }
 
-        printf("Enter %d elements (sorted):\n", size);
-        for (int i = 0; i < size; i++) {
-            if (scanf("%d", &arr[i]) != 1) {
+        printf("Enter %d elements (sorted):\n", iSize);
+        for (int iI = 0; iI < iSize; iI++) {
+            if (scanf("%d", &iArr[iI]) != 1) {
                 handle_error(ERROR_INVALID_INPUT);  /* Handle invalid input error */
                 while (getchar() != '\n'); // Clear input buffer
                 return 1;
@@ -48,25 +48,25 @@ int main() {
         }
 
         printf("Enter the value to search for: ");
-        if (scanf("%d", &target) != 1) {
+        if (scanf("%d", &iTarget) != 1) {
             handle_error(ERROR_INVALID_INPUT);  /* Handle invalid input error */
             while (getchar() != '\n'); // Clear input buffer
             return 1;
         }
 
         clock_t start = clock();  /* Start the clock */
-        index = binarysearch(target, arr, size);  /* Call the binarysearch function */
+        iIndex = binarysearch(iTarget, iArr, iSize);  /* Call the binarysearch function */
         clock_t end = clock();  /* End the clock */
 
-        double timed = (double)(end - start) / CLOCKS_PER_SEC;  /* Calculate the elapsed time */
+        double dTimed = (double)(end - start) / CLOCKS_PER_SEC;  /* Calculate the elapsed time */
 
-        if (index != -1) {
-            printf("Element %d found at index %d\n", target, index);  /* Print index if found */
+        if (iIndex != -1) {
+            printf("Element %d found at index %d\n", iTarget, iIndex);  /* Print index if found */
         } else {
-            printf("Element %d not found in the array.\n", target);  /* Inform if not found */
+            printf("Element %d not found in the array.\n", iTarget);  /* Inform if not found */
         }
 
-        printf("Time taken for the search: %f seconds\n", timed);  /* Print the time taken */
+        printf("Time taken for the search: %f seconds\n", dTimed);  /* Print the time taken */
 
         printf("Do you want to perform another search? (y/n): ");
         if (scanf(" %c", &choice) != 1) {

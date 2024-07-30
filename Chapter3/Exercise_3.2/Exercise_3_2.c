@@ -70,23 +70,23 @@ int main() {
 
 void escape(char s[], char t[]){
 	char iC;
-	int iI, iJ; //for traversing in the string
-	iI=iJ=0; //initially i and j marked as zero
-	while((s[iI])!='\0'){  //terminaton condition
-		switch(s[iI]){   //checks the s[i] and accordingly performs the cases
-			case '\n':         //case for the new line character
-				t[iJ] = '\\';    //at jth position of t[j] put '/'
-				iJ++;            //then increase the pointer
-				t[iJ] = 'n';     //and then again put the 'n' on t[j]th pos
+	int iI, iJ; /*for traversing in the string*/
+	iI=iJ=0; /*initially i and j marked as zero*/
+	while((s[iI])!='\0'){  /*terminaton condition*/
+		switch(s[iI]){   /*checks the s[i] and accordingly performs the cases*/
+			case '\n':         /*case for the new line character*/
+				t[iJ] = '\\';    /*at jth position of t[j] put '/'*/
+				iJ++;            /*then increase the pointer*/
+				t[iJ] = 'n';     /*and then again put the 'n' on t[j]th pos*/
 				break;
-			case '\t':              //case for the tab 
+			case '\t':              /*case for the tab */
 				t[iJ] = '\\';
 				iJ++;
 				t[iJ] = 't';
 				
 				break;
 			default:
-				t[iJ]=s[iI];  //default case for simple words
+				t[iJ]=s[iI];  /*default case for simple words*/
 				break;
 		}
 		iI++;   //increasing the both pointers

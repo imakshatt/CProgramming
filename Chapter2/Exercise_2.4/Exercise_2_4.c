@@ -85,23 +85,23 @@ int main() {
  *   Modified: 25 July 2024
  */
 void squeeze(char s1[], char s2[]) {
-    int i, j, k; /* Declare loop counters */
-    int found; /* Flag to indicate if a character match is found */
+    int iI, iJ, iK; /* Declare loop counters */
+    int iFound; /* Flag to indicate if a character match is found */
 
-    for (i = 0, j = 0; s1[i] != '\0'; i++) { /* Loop through each character in s1 */
-        found = 0; /* Reset the found flag */
-        for (k = 0; s2[k] != '\0'; k++) { /* Loop through each character in s2 */
-            if (s1[i] == s2[k]) { /* Check if characters match */
-                found = 1; /* Set the found flag if there's a match */
+    for (iI = 0, iJ = 0; s1[iI] != '\0'; iI++) { /* Loop through each character in s1 */
+        iFound = 0; /* Reset the found flag */
+        for (iK = 0; s2[iK] != '\0'; iK++) { /* Loop through each character in s2 */
+            if (s1[iI] == s2[iK]) { /* Check if characters match */
+                iFound = 1; /* Set the found flag if there's a match */
                 break; /* Exit the inner loop */
             }
         }
-        if (!found) { /* If no match was found */
-            s1[j] = s1[i]; /* Copy the character to the new position */
-            j++; /* Increment the new position index */
+        if (!iFound) { /* If no match was found */
+            s1[iJ] = s1[iI]; /* Copy the character to the new position */
+            iJ++; /* Increment the new position index */
         }
     }
-    s1[j] = '\0'; /* Null-terminate the modified string */
+    s1[iJ] = '\0'; /* Null-terminate the modified string */
 }
 
 /*
@@ -115,10 +115,10 @@ void squeeze(char s1[], char s2[]) {
  *   Modified: 25 July 2024
  */
 int contains_duplicates(char s2[]) {
-    int len = strlen(s2);
-    for (int i = 0; i < len; i++) {
-        for (int j = i + 1; j < len; j++) {
-            if (s2[i] == s2[j]) {
+    int iLen = strlen(s2);
+    for (int iI = 0; iI < iLen; iI++) {
+        for (int iJ = iI + 1; iJ < iLen; iJ++) {
+            if (s2[iI] == s2[iJ]) {
                 return 1; /* Duplicate found */
             }
         }

@@ -5,71 +5,108 @@ Created: 10 July 2024
 Modified: 10 July 2024
 */
 
-
 /** REQUIRED HEADER FILES */
-#include<stdio.h>
-#include<ctype.h>
-#include<string.h>
+#include <stdio.h>
+#include <string.h>
+#include <limits.h> /*For INT_MIN*/
+#include "../../error_handling.h"
 
-/** MARCO DEFINATIONS */
-
+/** MACRO DEFINITIONS */
+#define MAX_STRING_LENGTH 1000
 
 /** FUNCTION PROTOTYPES */
-void itoa(int n, char s[]); //function which converts the number into the char sring
-void reverse(char s[]);  //resulting char string is reversed using this function
+void itoa(int iN, char cS[]); /* Function which converts the number into the char string */
+void reverse(char cS[]);  /* Resulting char string is reversed using this function */
 
 /** MAIN PROGRAM */
 /*
- * main: main takes the number and converts that number into the character string
+ * main: Takes the number and converts that number into the character string
 */
 
+int main() {
+    char cS[MAX_STRING_LENGTH];  /* Array to store the resulting string */
+    int iN;                      /* Number to be converted */
+    char choice;                 /* Variable to store the user's choice for continuation */
 
-int main(){
-	char s[1000]; //to store the answer resulting char string of N = -128
-        int n = -128;  //number which is entered by user to be converted into the char string
-        itoa(n, s); //pass the number and s[] as an argument to convert the number into the char string
+    do {
+        printf("Enter an integer to convert to a string: ");
+        if (scanf("%d", &iN) != 1) {
+            handle_error(ERROR_INVALID_INPUT);  /* Handle invalid input error */
+            while (getchar() != '\n'); /* Clear input buffer */
+            return 1;
+        }
+
+        itoa(iN, cS);  /* Call the itoa function to convert the number to a string */
+
+        printf("Converted string: %s\n", cS);  /* Print the resulting string */
+
+        printf("Do you want to convert another number? (y/n): ");
+        if (scanf(" %c", &choice) != 1) {
+            handle_error(ERROR_INVALID_INPUT);  /* Handle invalid input error */
+            while (getchar() != '\n'); /* Clear input buffer */
+            return 1;
+        }
+
+        /* Clear the input buffer to avoid issues with leftover newline characters */
+        while (getchar() != '\n');
+
+    } while (choice == 'y' || choice == 'Y');  /* Continue if the user chooses 'y' or 'Y' */
+
+    return 0;  /* Exit the program */
 }
 
 /*
- * itoa(): it accepts the number to be converted into the character string and char s[] string to store the ans
+ * itoa(): Converts an integer to a string representation
  * Author: Akshat Darji
  * Created: 10 Jun 2024
  * Modified: 10 Jun 2024
 */
 
-void itoa(int n, char s[]){  //takes the number and s[]
-	 int i, sign;  //initialize i for traversing to the number and sign to check whether the number is + or -
-        if((sign=n)<0){     //check if number is lesser then goes into the if condition
-                n = -n;   //make number positive by n = -(-128) == 128
-        }
-        i = 0;  //here initialize i with zero 
-        while(n>0){   //termination condition
-                s[i] = n % 10 + '0';  //breaks the number into one char like 128 into 8, 2, 1 and store in s[i]
-                i++; //increment the pointer of s[] to the next position
-                n = n/10;  //here we delete the last digit from the number 
-        }
-        if(sign < 0){   //at the end if sign is -ve then at the last position put the '-' sign
-                s[i] = '-';
-                i++;  //increment the i by one to traverse into the s[]
-        }
-        s[i] = '\0';   //at the last index put the null character for the string termination
-        reverse(s);   //at the end reverse the entire s[] to get the answer
+void itoa(int iN, char cS[]) {
+    int iI, iSign; /* Initialize i for traversing the number and sign to check whether the number is positive or                       negative */
+    if (iN == INT_MIN) {  /*case for the most negative value */
+        strcpy(cS, "-2147483648");
+        return;
+    }
+
+    if(iN >= INT_MAX){
+    	handle_error(INT_OUT_OF_RANGE);
+	return;
+    }
+
+    if ((iSign = iN) < 0) {    /* Check if number is negative */
+        iN = -iN;   /* Make number positive */
+    }
+    iI = 0;  /* Initialize i with zero */
+    while (iN > 0) {   /* Termination condition */
+        cS[iI] = iN % 10 + '0'; /* Break the number into digits and store them in cS */
+        iI++; /* Increment the pointer of cS to the next position */
+        iN = iN / 10;  /* Delete the last digit from the number */
+    }
+    if (iSign < 0) {   /* If the number was negative, add the '-' sign */
+        cS[iI] = '-';
+        iI++;  /* Increment i by one to traverse into the cS */
+    }
+    cS[iI] = '\0';   /* Null-terminate the string */
+    reverse(cS);   /* Reverse the string to get the correct order */
 }
 
-
-/*                                                                                                                * reverse(): it accepts the char s[] to reverse the answer string
+/*
+ * reverse(): Reverses the given string
  * Author: Akshat Darji
- * Created: 10 Jun 2024                                                                                           * Modified: 10 Jun 2024
+ * Created: 10 Jun 2024
+ * Modified: 10 Jun 2024
 */
 
-void reverse(char s[]){
-        char t[1000];   //reverse number stored into the t[]
-        int len = strlen(s); //finding the length of the char strind s[] and store it in len
-        int index = 0;  //initialize index with zero
-        for(int j=len-1;j>=0;j--){   //starting the loop from the last pos of s[]
-                t[index] = s[j]; //and copy the character one by one in the t[index] position
-                index++; //increment the index to traverse into the t[]
-        }
-        t[index] = '\0'; //at the end put the null charater for the string termination
-        printf("%s\n", t); //printing the answer.
+void reverse(char cS[]) {
+    char cT[1000];   /* Array to store the reversed string */
+    int iLen = strlen(cS); /* Find the length of the input string */
+    int iIndex = 0;  /* Index for traversing cT */
+
+    for (int iJ = iLen - 1; iJ >= 0; iJ--) {   /* Loop to reverse the string */
+        cT[iIndex++] = cS[iJ]; /* Copy characters from cS to cT in reverse order */
+    }
+    cT[iIndex] = '\0'; /* Null-terminate the reversed string */
+
+    strcpy(cS, cT); /* Copy the reversed string back to cS */
 }

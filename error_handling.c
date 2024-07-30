@@ -33,6 +33,12 @@ void handle_error(int error_code) {
 	case ERROR_INPUT_TOO_LONG:
 	    printf("Error %d: Input exceeds maximum allowed length.\n", ERROR_INPUT_TOO_LONG);
 	    break;
+	case INT_OUT_OF_RANGE:
+	    printf("Error %d: Entered number is not in range.\n", INT_OUT_OF_RANGE);
+	    break;
+	case ERROR_INVALID_FORMAT:
+	    printf("Error %d: Invalid format. Please ensure the input is a valid.\n",  ERROR_INVALID_FORMAT);
+	    break;
         default:
             printf("Error: Unknown error.\n");
             break;
