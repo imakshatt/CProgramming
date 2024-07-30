@@ -273,8 +273,8 @@ double pop(){
 */
 
 void peek(void){
-	if(sp > 0){
-		printf("Top Element: %.8g\n", val[sp-1]);
+	if(sp > 0){ /*Checking for underflow condition*/
+		printf("Top Element: %.8g\n", val[sp-1]); /*Print the TOP Element*/
 	}
 	else{
 		printf("Error: Stack is Empty can't print top element\n");
@@ -289,9 +289,9 @@ void peek(void){
 */
 
 void duplicatetop(void){
-	if(sp > 0 && sp < MAXVAL){
-		double top = val[sp-1];
-		push(top);
+	if(sp > 0 && sp < MAXVAL){ /*Checking for overflow and underflow condition*/
+		double dTop = val[sp-1]; /*Store the top element of stack*/
+		push(dTop); /*Push that again into stack to duplicate that*/
 	}
 	else if(sp == 0){
 		printf("Error: Stack is Empty can't duplicate.\n");
@@ -309,11 +309,11 @@ void duplicatetop(void){
 */
 
 void swapTopTwo(void){
-    if(sp >= 2){
-        double temp = val[sp-1];
-        val[sp-1] = val[sp-2];
-        val[sp-2] = temp;
-	printf("First Element: %.8g\n", val[sp-1]);
+    if(sp >= 2){ /*For swapping we need atleast 2 elements*/
+        double dTemp = val[sp-1]; /*Store top element into the temp variable*/
+        val[sp-1] = val[sp-2]; /*Then instead of top element store the second top element*/
+        val[sp-2] = dTemp; /*Instead of second top store the top element*/
+	printf("First Element: %.8g\n", val[sp-1]); 
 	printf("Second Element: %.8g\n", val[sp-2]);
     }
     else{

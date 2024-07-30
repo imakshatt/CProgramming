@@ -33,6 +33,7 @@ void clearStack(void);
 void performSin(void);
 void performExp(void);
 void performPow(void);
+void ungets(char s[]);
 
 void printInstructions(void);
 
@@ -246,6 +247,19 @@ void ungetch(int c){
 	else{
 		buf[bufp++] = c;
 	}
+}
+
+
+/*
+ * ungets(char s[]): to push back an entire string onto the buffer
+ * Author: Akshat Darji
+ * Created: 30 July 2024
+ */
+void ungets(char s[]) {
+    int iLen = strlen(s);
+    while (iLen > 0) {
+        ungetch(s[--iLen]);
+    }
 }
 
 
