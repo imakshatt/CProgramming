@@ -1,9 +1,9 @@
 
 /**
-Exercise_4_5: Add access to library functions like sin, exp, and pow.
+Exercise_4_8: Suppose that there will never be more than one character of pushback. Modify getch andungetch accordingly.
 Author: Akshat Darji
-Created: 26 July 2024
-Modified: 26 July 2024
+Created: 30 July 2024
+Modified: 30 July 2024
 */
 
 
@@ -12,7 +12,6 @@ Modified: 26 July 2024
 #include<stdlib.h>
 #include<ctype.h>
 #include<string.h>
-#include<math.h>
 
 /** MARCO DEFINATIONS */
 #define MAXOP 100
@@ -30,22 +29,12 @@ void peek(void);
 void duplicatetop(void);
 void swapTopTwo(void);
 void clearStack(void);
-void performSin(void);
-void performExp(void);
-void performPow(void);
-
 void printInstructions(void);
-
 
 /** MAIN PROGRAM */
 /*
- * main: A manu driven program which handles various cases such as addition, mutliplication, divi
- * modulo, print top element, duplicate top element, swap top two elements and clear the stack
- * Here below are some notations that are useful
- * Print Top Element use 'P': i.e. 2 3 + 5 * P
- * Duplicate Top Element use 'D': i.e. 2 3 D
- * swap top 2 Elements use 'S': i.e. 2 3 S
- * clear the stack use 'C' 
+ * main: getch() and ungetch() is just pushing and popping the data from buffer which is array because we are assuming that there may be more than one character. Now we are observing that there will never be more than one character which is pushed on the buffer so modified our code that it should only use one variable instead of array to perform the same operation which we are performing until now
+So in simple term we need to remove buffer array and use something which stores only one character. It should be done without changing any functionality which we added before. 
 */
 
 
@@ -112,15 +101,6 @@ int main(){
 			case 'C': /*To clear the stack*/
 				clearStack();
 				break;
-			case 's': /*To perform Sin operation like 2 s so that is sin(2)*/
-				performSin();
-				break;
-			case 'e': /*To perform Exponential Operation i.e. 2 e so exp(2)*/
-				performExp();
-				break;
-			case 'p': /*To perform Power operation i.w 2 4 p then it is 2^4 pow(2,4)*/
-				performPow();
-				break;
 			case '\n':
 				printf("\t%.8g\n", pop());
 				break;
@@ -152,9 +132,6 @@ void printInstructions(void){
     	printf(" - Duplicate Top Element: D\n");
     	printf(" - Swap Top 2 Elements: S\n");
     	printf(" - Clear the Stack: C\n");
-	printf(" - For performing Sin Operation: s\n");
-	printf(" - For performing Exponential Operation: e\n");
-	printf(" - For performing Power Operation: p\n");
     	printf("Enter your commands followed by Enter:\n");
 }
 
@@ -223,27 +200,31 @@ int getop(char s[]){
  * Modified: 26 July 2024
 */
 
-char buf[BUFSIZE]; /*Initialize the buffer array to store the non-numeric char*/
-int bufp = 0; /*Initialize buf pointer to zero*/
+//Removig below because instead of buffer we use one variable push_back_char to store that char
+//char buf[BUFSIZE]; /*Initialize the buffer array to store the non-numeric char
+//int bufp = 0; /*Initialize buf pointer to zero
+
+/*Instead of buffer as i assume there is no more then one character to push back to stack*/
+int iPush_back_character = '\0'; /*So i use one vaudable to store that pb_char*/
+int iPush_back_flag = 0; /*Here maintain the flag for the understanding*/
+
 int getch(void){
-	return (bufp > 0) ? buf[--bufp] : getchar(); /*Check is bufp is zero then only it read the char from the input string and if bufp is 1 then it clears the buffer first then only read it*/
+	/*if my flag is zero then it get the character using getchar() otherwise it revise the flag         as zero and then again read the character from the input*/
+	return (iPush_back_character == 1) ? iPush_back_flag=0, iPush_back_character : getchar(); 
 }
 
 
 /*
  * ungetch(int c): to store the non-numeric value in the buf[]
+ * Update: There is no more then one character to push-back so updating ungetch function instead of    using buffer we use one variable in which store the character to push-back
  * Author: Akshat Darji
  * Created: 26 July 2024
  * Modified: 26 July 2024
 */
 
 void ungetch(int c){
-	if(bufp >= BUFSIZE){
-		printf("Ungetch: too many characters\n");
-	}	
-	else{
-		buf[bufp++] = c;
-	}
+	iPush_back_character = c; /*For unget the character*/
+	iPush_back_flag = 1; /*Make push_back_flag as 1*/
 }
 
 
@@ -307,7 +288,7 @@ void peek(void){
 void duplicatetop(void){
 	if(sp > 0 && sp < MAXVAL){ /*Checking for overflow and underflow condition*/
 		double dTop = val[sp-1]; /*Store the top element of stack*/
-		push(dTop);
+		push(dTop); /*Push that again into stack to duplicate that*/
 	}
 	else if(sp == 0){
 		printf("Error: Stack is Empty can't duplicate.\n");
@@ -329,7 +310,7 @@ void swapTopTwo(void){
         double dTemp = val[sp-1]; /*Store top element into the temp variable*/
         val[sp-1] = val[sp-2]; /*Then instead of top element store the second top element*/
         val[sp-2] = dTemp; /*Instead of second top store the top element*/
-	printf("First Element: %.8g\n", val[sp-1]);
+	printf("First Element: %.8g\n", val[sp-1]); 
 	printf("Second Element: %.8g\n", val[sp-2]);
     }
     else{
@@ -344,54 +325,5 @@ void swapTopTwo(void){
 */
 
 void clearStack(void){
-	sp=0;
-}
-
-/*
- * performSin(void): This function used to perform Sin Operation
- * Author: Akshat Darji
- * Created: 26 July 2024
- * Modified: 26 July 2024
-*/
-void performSin(void){
-	if(sp>0){ /*Check for underflow condition*/
-		double dValue = pop(); /*store the top element into the value variable*/
-		push(sin(dValue)); /*Push then sin(dValue) into the stack*/
-	}
-	else{
-		printf("Error: Not Enough elements to perform SIN operation.\n");
-	}
-}
-
-/*
- * performExp(void): This function used to perform Exponential Operation
- * Author: Akshat Darji
- * Created: 26 July 2024
- * Modified: 26 July 2024
-*/
-void performExp(void){ 
-        if(sp>0){ /*Check for underflow condition*/
-                double dValue = pop(); /*store the top element into the value variable*/
-                push(exp(dValue)); /*Push then exp(dValue) into the stack*/
-        }
-        else{
-                printf("Error: Not Enough elements to perform SIN operation.\n");
-        }
-}
-
-/*
- * performSin(void): This function used to perform Sin Operation
- * Author: Akshat Darji
- * Created: 26 July 2024
- * Modified: 26 July 2024
-*/
-void performPow(void){
-        if(sp>=2){ /*For power operation atleast we need 2 char into the stack*/
-                double dExponent = pop(); /*Store the top element into the dExponent*/
-		double dBase = pop(); /*Store the second top element into the dBase*/
-                push(pow(dBase, dExponent)); /*Push the pow(dBase, dExponent) value into the stack*/
-        }
-        else{
-                printf("Error: Not Enough elements to perform SIN operation.\n");
-        }
+	sp=0; /*Here i make sp pointer as zero so it will make the stack empty*/
 }

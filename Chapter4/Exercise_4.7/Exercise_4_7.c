@@ -56,8 +56,6 @@ int main(){
 	int type;
 	double op2;
 	char s[MAXOP];
-	char choice;
-
 
 	while((type=getop(s)) != EOF){
 		switch(type){
@@ -255,10 +253,10 @@ void ungetch(int c){
  * Author: Akshat Darji
  * Created: 30 July 2024
  */
-void ungets(char s[]) {
-    int iLen = strlen(s);
-    while (iLen > 0) {
-        ungetch(s[--iLen]);
+void ungets(char s[]) { /*ungets is used to put entire string into the buffer*/
+    int iLen = strlen(s); /*Finding the length of string*/
+    while (iLen > 0) { /*Traverse through the entire input string */
+        ungetch(s[--iLen]); /*Putting the values into the buffer (Entire string)*/
     }
 }
 

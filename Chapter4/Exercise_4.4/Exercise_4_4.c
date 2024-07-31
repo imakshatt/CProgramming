@@ -49,8 +49,6 @@ int main(){
 	int type;
 	double op2;
 	char s[MAXOP];
-	char choice;
-
 
 	while((type=getop(s)) != EOF){
 		switch(type){
