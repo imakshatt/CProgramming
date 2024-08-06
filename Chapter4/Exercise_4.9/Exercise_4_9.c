@@ -1,333 +1,79 @@
-
-/**
-Exercise_4_9: Our getch and ungetch do not handle a pushed-back EOF correctly. Decide what their properties ought to be if an EOF is pushed back, then implement your design.
+                                                                                                    /**                                                                                                 Exercise_4_9: Our getch and ungetch do not handle a pushed-back EOF correctly. Decide what their properties ought to be if an EOF is pushed back, then implement your design.
 Author: Akshat Darji
-Created: 26 July 2024
-Modified: 26 July 2024
+Created: 30 July 2024
+Modified: 30 July 2024
 */
-
 
 /** REQUIRED HEADER FILES */
 #include<stdio.h>
-#include<stdlib.h>
-#include<ctype.h>
-#include<string.h>
 
 /** MARCO DEFINATIONS */
-#define MAXOP 100
-#define NUMBER '0'
-#define MAXVAL 100
 #define BUFSIZE 100
 
 /** FUNCTION PROTOTYPES */
-int getop(char []);
-void push(double);
-double pop(void);
+void ungetch(int c);
 int getch(void);
-void ungetch(int);
-void peek(void);
-void duplicatetop(void);
-void swapTopTwo(void);
-void clearStack(void);
-void printInstructions(void);
+void test_pushed_back_EOF();
 
-/** MAIN PROGRAM */
-/*
- * main: A manu driven program which handles various cases such as addition, mutliplication, divi
- * modulo, print top element, duplicate top element, swap top two elements and clear the stack
- * Here below are some notations that are useful
- * Print Top Element use 'P': i.e. 2 3 + 5 * P
- * Duplicate Top Element use 'D': i.e. 2 3 D
- * swap top 2 Elements use 'S': i.e. 2 3 S
- * clear the stack use 'C' 
+
+/** MAIN PROGRAM */                                                                                 /*                                                                                                   * main: In exercise 4-3 getch and ungetch is not capable of pushing EOF properly so we need to improve these problem and has to generate new getch() and ungetch()  such that it can push EOF properly so for that reason here main calls one function test_pushed_back_EOF to ensure that the EOF handled correctly in that function we ungetch the EOF.                         
 */
-
-
 int main(){
-
-	printInstructions(); /*Printing the instructions for the user*/
-	int type;
-	double op2;
-	char s[MAXOP];
-
-	while((type=getop(s)) != EOF){
-		switch(type){
-			case NUMBER: /*if type == '0' then this case performs*/
-				push(atof(s)); /*converting s into double and push to stack*/
-				break; /*break the case*/
-
-			case '+':   /*If type == '+' then we have to perform Addition*/
-				push(pop() + pop()); /*Pop first 2 ele and perform '+'*/
-				break; /*Break the case*/
-
-			case '*': /*If type == '*' then we have to perform Multiplication*/
-				push(pop() * pop()); /*pop first 2 ele and perform '*'*/
-				break;
-
-			case '-': /*If type == '-' then perform Substraction*/
-				/*As in Substraction Sign and order metters hense use op2*/
-				op2 = pop(); /*store top ele of stack in op2*/
-				push(pop() - op2); /*Now pop last ele and perform '-'*/
-				break; 
-
-			case '/': /*If type == '/' then perform Division*/
-				/*As in Division Sign and order merrers*/
-				/*And also encounter zero division error*/
-				op2 = pop(); /*Store first element of stack in op2*/
-				if(op2 != 0.0){ /*Chekc if op2==0 then '/' Not possible*/
-					push(pop() / op2); /*Perform '/'*/
-				}
-				else{
-					printf("Error: Zero Division Error\n"); /*Error Handling*/
-				}
-				break;
-
-			case '%': /*If type == '%' then perform Division*/
-				/*As in Modulo Sign and order merrers*/
-				/*And also encounter zero division error*/
-				op2 = pop(); /*Store first element of stack in op2*/
-				if(op2 != 0.0){ /*Chekc if op2==0 then '%' Not possible*/
-					push((int)pop() % (int)op2);
-				}
-				else{
-					printf("Error: Zero Division Error"); /*Error Handling*/
-				}
-				break;
-
-			case 'P': /*To print top element of the stack*/
-				peek(); 
-				break;
-			case 'D': /*To Duplicate top elelent of the stack*/
-				duplicatetop();
-				break;
-			case 'S': /*To Swap top 2 element of the stack*/
-				swapTopTwo();
-				break;
-			case 'C': /*To clear the stack*/
-				clearStack();
-				break;
-			case '\n':
-				printf("\t%.8g\n", pop());
-				break;
-			default:
-				printf("Error: Unknown Command %s\n", s);
-				break;
-
-		}
-	}
+	test_pushed_back_EOF();
 	return 0;
 }
 
-/*
- * printInstructions(): This function is used to print the basic instructions for the user
- * Author: Akshat Darji
- * Created: 26 July 2024
- * Modified: 26 July 2024
-*/
 
-void printInstructions(void){
-	printf("Welcome the Calculator!\n");
-    	printf("You can perform the following operations:\n");
-    	printf(" - Addition: +\n");
-    	printf(" - Subtraction: -\n");
-    	printf(" - Multiplication: *\n");
-    	printf(" - Division: /\n");
-    	printf(" - Modulo: %%\n");
-    	printf(" - Print Top Element: P\n");
-    	printf(" - Duplicate Top Element: D\n");
-    	printf(" - Swap Top 2 Elements: S\n");
-    	printf(" - Clear the Stack: C\n");
-    	printf("Enter your commands followed by Enter:\n");
-}
-
-/*
- * getop(char s[]): This function is used to read the operators and operands from i/p
- * Author: Akshat Darji
- * Created: 26 July 2024
- * Modified: 26 July 2024
-*/
-
-int getop(char s[]){
-	int i,c;
-
-	while((s[0] = c = getch()) == ' ' || c == '\t');  /*For Skipping Space and Tab*/
-
-	s[1] = '\0'; /*Make s[1] as EOF for temp*/
-
-	if(!isdigit(c) && c !='.' && c != '-'){ /*Case for Handling Non Digit Char
-	                                          If !isdigit(c) then retrun that operator*/
-		return c;  /*Retrun to main and stored in type*/
-	}
-
-	i=0; /*Initializing i as ZERO*/
- 
-	/*For Handle Negative Character*/
-	/*Because there are 2 possibilities One is -Ve Operand and -ve is also Operator*/
-	if(c == '-'){  /*Check as C is '-' or not*/
-		char next = getch();  /*If it is then store the next value in next variable*/
-		if(isdigit(next) || next == '.'){ /*Now check for that NEXT value like isdigit & .*/
-			s[++i] = c = next; /*then store that in s[]*/
-		}
-		else{
-			ungetch(next); /*Otherwise handling the space using ungetch()*/
-			return c; /*And if that is operator then return That Sign*/
-		}
-	}
-
-	if(isdigit(c)){ /*This is the case for handling Digit*/
-		while(isdigit(s[++i] = c = getch())); /*continue until we get digit*/
-	}
-
-	if(c == '.'){ /*For fractional part*/
-		while(isdigit(s[++i] = c = getch()));
-	}
-
-	/*if(c == '-' || isdigit(c)){
-		while(isdigit(s[++i] = c = getch()));
-	}
-	if(strcmp(s, "-") == 0){
-		return '-';
-	}*/
-
-	s[i] = '\0'; /*At the End at ith location in s[] mark as EOF*/
-
-	if(c != EOF){  /*If C is not an EOF then*/
-		ungetch(c); /*Handle it in Buffer*/
-	}
-	return NUMBER; /*At the End Retrun the number stored in s[] as '0' for switch case*/
-}
-
-
+int buf[BUFSIZE]; /*Here instead of char buf[BUFSIZE] to handle EOF i use int buf*/
+int bufp = 0;
 /*
  * getch(void): to read the character from the i/p string
- * Our Original getch and ungetch function uses a buffer, bufp. Here EOF is an integer, value of EOF is -1, so the buffer will not be able to handle the EOF correctly. So to handle the EOF correctly, we'll change the type of buf char to int that is the only change here we require.
  * Author: Akshat Darji
- * Created: 26 July 2024
- * Modified: 26 July 2024
+ * Created: 30 July 2024
+ * Modified: 30 July 2024
 */
 
-
-//char buf[BUFSIZE]; /*Initialize the buffer array to store the non-numeric char
-int buf[BUFSIZE]; /*To store the EOF value as well*/
-int bufp = 0; /*Initialize buf pointer to zero*/
-int getch(void){
-	return (bufp > 0) ? buf[--bufp] : getchar(); /*Check is bufp is zero then only it read the char from the input string and if bufp is 1 then it clears the buffer first then only read it*/
+int getch(){
+	return (bufp>0) ? buf[--bufp] : getchar();
 }
 
 
 /*
  * ungetch(int c): to store the non-numeric value in the buf[]
+ * Update: Here i have to handle EOF also so instead of char i use int in buf
  * Author: Akshat Darji
- * Created: 26 July 2024
- * Modified: 26 July 2024
+ * Created: 30 July 2024
+ * Modified: 30 July 2024
 */
 
 void ungetch(int c){
-	if(bufp >= BUFSIZE){
-		printf("Ungetch: too many characters\n");
-	}	
+	if(bufp>=BUFSIZE){
+		printf("Error: To many characters for ungetch.\n");
+	}
 	else{
 		buf[bufp++] = c;
 	}
 }
 
-
 /*
- * push(double f): This function push the value into the stack val[]
+ * test_pushed_back_EOF(): To check EOF is handled correctly or not
  * Author: Akshat Darji
- * Created: 26 July 2024
- * Modified: 26 July 2024
-*/
-int sp = 0; /*Pointer to traverse into the stack*/
-double val[MAXVAL]; /*Initialize the stack*/
-void push(double f){ /*Cahce the value*/
-	if(sp < MAXVAL){ /*Check for the overflow condition*/
-		val[sp++] = f; /*If not then only push the value into the stack*/
-	}
-	else{
-		printf("Error: Stack Full, can't push %g\n", f); /*Else error*/
-	}
-}
-
-/*
- * pop(): This function delete the top element from the stack
- * Author: Akshat Darji
- * Created: 26 July 2024
- * Modified: 26 July 2024
+ * Created: 30 July 2024
+ * Modified: 30 July 2024
 */
 
-double pop(){
-	if(sp > 0){ /*Check for underdflow condition */
-		return val[--sp]; /*if there is values then delete top element*/
-	}
-	else{
-		printf("Error: Stack is Empty\n");
-		return 0.0;
-	}
-}
+void test_pushed_back_EOF() {
+    printf("Test: Push Back and Read EOF\n");
 
-/*
- * peek(void): This function is used to print the top element of stack without popping
- * Author: Akshat Darji
- * Created: 26 July 2024
- * Modified: 26 July 2024
-*/
+    // Push back EOF
+    ungetch(EOF);
 
-void peek(void){
-	if(sp > 0){ /*Checking for underflow condition*/
-		printf("Top Element: %.8g\n", val[sp-1]); /*Print the TOP Element*/
-	}
-	else{
-		printf("Error: Stack is Empty can't print top element\n");
-	}
-}
+    // Read using getch
+    int c = getch();
 
-/*
- * duplicatetop(void): This function is used to duplicate the top element
- * Author: Akshat Darji
- * Created: 26 July 2024
- * Modified: 26 July 2024
-*/
-
-void duplicatetop(void){
-	if(sp > 0 && sp < MAXVAL){ /*Checking for overflow and underflow condition*/
-		double dTop = val[sp-1]; /*Store the top element of stack*/
-		push(dTop); /*Push that again into stack to duplicate that*/
-	}
-	else if(sp == 0){
-		printf("Error: Stack is Empty can't duplicate.\n");
-	}
-	else{
-		printf("Error: Stack Overflow, can't duplicate.\n");
-	}
-}
-
-/*
- * swapTopTwo(void): This function is used to swap top 2 elements of stack 
- * Author: Akshat Darji
- * Created: 26 July 2024
- * Modified: 26 July 2024
-*/
-
-void swapTopTwo(void){
-    if(sp >= 2){ /*For swapping we need atleast 2 elements*/
-        double dTemp = val[sp-1]; /*Store top element into the temp variable*/
-        val[sp-1] = val[sp-2]; /*Then instead of top element store the second top element*/
-        val[sp-2] = dTemp; /*Instead of second top store the top element*/
-	printf("First Element: %.8g\n", val[sp-1]); 
-	printf("Second Element: %.8g\n", val[sp-2]);
+    if (c == EOF) {
+        printf("EOF handled correctly\n");
+    } else {
+        printf("Failed to handle EOF, got: %d\n", c);
     }
-    else{
-        printf("Error: Not enough elements to swap.\n");
-    }
-}
-
-/*
- * clearStack(void): This function is used clear the stack                                           * Author: Akshat Darji
- * Created: 26 July 2024
- * Modified: 26 July 2024
-*/
-
-void clearStack(void){
-	sp=0;
 }
