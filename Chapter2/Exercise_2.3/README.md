@@ -20,7 +20,7 @@ The program takes a hexadecimal string as input from the user and converts it to
 - Prompts the user to repeat the process.
 
 ## Usage
-1. Compile the program using a C compiler, e.g., `gcc -o hex_to_int hex_to_int.c`.
+1. Compile the program using a C compiler, e.g., `gcc -o hex_to_int hex_to_int.c ../error_handling.c`.
 2. Run the compiled program, e.g., `./hex_to_int`.
 3. Enter a valid hexadecimal number when prompted.
 4. View the converted decimal value.

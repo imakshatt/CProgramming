@@ -15,6 +15,7 @@
 #define INT_OUT_OF_RANGE 10/*For Handling the error of MAX INT (Out of range prob)*/
 #define ERROR_INVALID_FORMAT 11 /*for exercise_4_2 to validate input notation*/
 
+
 // Function prototypes
 void handle_error(int error_code);
 
