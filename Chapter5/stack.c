@@ -13,6 +13,7 @@ void addatbeg(struct node **q, int num);
 void addafter(struct node *q, int loc, int num);
 void delete(struct node **q, int num);
 void Reverse(struct node **q);
+void addqueue(struct node **q);
 
 int main() {
     struct node *p = NULL;
