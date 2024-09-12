@@ -10,9 +10,11 @@ Modified: 4 July 2024
 #include<stdio.h>
 
 /** MARCO DEFINATIONS */
-
+#define MAXLINE 1000
 
 /** FUNCTION PROTOTYPES */
+int mgetline(char line[],int lim);
+void copy(char to[],char from[]);
 
 
 /** MAIN PROGRAM */
@@ -24,31 +26,69 @@ Modified: 4 July 2024
 */
 
 
-int main(){
-	int iLim = 10; //Limit of the loop
-	char s[iLim]; //empty string array S 
-	int i; //For the loop iteration
-	int iC;
-	for(i=0;i<iLim-1;i++){
-		if(iC=getchar()!='\n'){
-			if(iC != EOF){
-				s[i] = iC;
-			}
-		}
-	}
-	return 0;
+int main(void)
+{
+    int len,max;
+    char line[MAXLINE],maxline[MAXLINE];
 
+    max =0;
+
+    while((len=mgetline(line,MAXLINE)) > 0)
+    {
+        if(len > max)
+        {
+            max = len;
+            copy(maxline,line);
+        }
+    }
+
+    if(max>0)
+        printf("%s",maxline);
 }
 
-
-//if any functions then mention like below
 /*
- * functionName: detail of that function like what it accepts
+ * mgetline(char line[],int lim): detail of that function like what it accepts
  * Author: Akshat Darji
  * Created: 21 Jun 2024
  * Modified: 21 Jun 2024
 */
 
-/*void functionName(){
+int mgetline(char s[],int lim)
+{
+    int i,c;
 
-}*/
+    for(i=0; i < lim - 1 ;++i) {
+        c = getchar();
+        if (c == EOF)
+            break;
+        if (c == '\n')
+            break;
+        s[i] = c;
+    }
+
+    if(c == '\n')
+    {
+    s[i] = c;
+    ++i;
+    }
+
+    s[i] = '\0';
+    return i;
+}
+
+/*
+ * copy(char to[],char from[]): detail of that function like what it accepts
+ * Author: Akshat Darji
+ * Created: 21 Jun 2024
+ * Modified: 21 Jun 2024
+*/
+
+void copy(char to[],char from[])
+{
+    int i;
+    i=0;
+
+    while((to[i]=from[i]) != '\0')
+    ++i;
+}
+

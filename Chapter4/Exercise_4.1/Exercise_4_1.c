@@ -9,6 +9,7 @@ Modified: 12 July 2024
 /** REQUIRED HEADER FILES */
 #include<stdio.h>
 #include<string.h>
+#include "../../error_handling.h"
 
 /** MARCO DEFINATIONS */
 

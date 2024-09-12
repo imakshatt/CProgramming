@@ -86,7 +86,7 @@ int any(char s1[], char s2[]){
 		for(iJ=0;iJ<iLenS2;iJ++){ /*Traversing into string2 cS2*/
 			if(s1[iI]==s2[iJ]){ /*Check the ith element matche with jth element of cS2*/
 				iFound = 1; /*If it is then Update Found to 1*/
-				iPos = iI+1; /*Store the position of that character in cS1*/
+				iPos = iI; /*Store the position of that character in cS1*/
 				break;
 			}
 		}

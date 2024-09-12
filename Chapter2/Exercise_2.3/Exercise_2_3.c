@@ -31,7 +31,7 @@ int main() {
         char cStr[1000];  // For taking input Hexadecimal String
         printf("Enter a hexadecimal number (with optional 0x or 0X prefix): ");
         
-        if (scanf("%999s", cStr) != 1) { /* Error Validation for correct input */
+        if (scanf("%s", cStr) != 1) { /* Error Validation for correct input */
             handle_error(ERROR_INVALID_INPUT); /* Handling the error */
             return 1; 
         }

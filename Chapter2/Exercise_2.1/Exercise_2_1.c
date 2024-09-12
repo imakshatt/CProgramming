@@ -19,7 +19,7 @@ Modified: 26 JUn 2024
 
 /** MAIN PROGRAM */
 /*
- * main: detail overview of main function
+ * main: Check the ranges of all data types, MAX and MIN ranges
 */
 
 
